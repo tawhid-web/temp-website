@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FnocWave - Under Construction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Animated Background Shapes */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #48dbfb, #0abde3);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 5s;
+        }
+
+        .shape3 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(45deg, #ff9ff3, #feca57);
+            top: 50%;
+            right: -50px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(50px, -50px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-30px, 50px) rotate(240deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 40px 20px;
+            max-width: 900px;
+            width: 90%;
+        }
+
+        /* Logo Container with 3D Effect */
+        .logo-container {
+            margin-bottom: 40px;
+            perspective: 1000px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-wrapper {
+            display: inline-block;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                        0 0 40px rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+            animation: float3d 6s infinite ease-in-out;
+        }
+
+        .logo-wrapper:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4),
+                        0 0 60px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes float3d {
+            0%, 100% {
+                transform: translateY(0px) rotateX(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(5deg);
+            }
+        }
+
+        .logo-wrapper img {
+            width: 180px;
+            height: 180px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Title Section */
+        .title-section {
+            margin-bottom: 35px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .under-construction {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-size: 1rem;
+            color: #ffffff;
+            font-weight: 500;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .btn {
+            position: relative;
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+        }
+
+        .btn:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .btn-icon {
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover .btn-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Loading Animation */
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 30px auto 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 200% 100%;
+            animation: loading 2s infinite linear;
+            border-radius: 10px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .logo-wrapper img {
+                width: 140px;
+                height: 140px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .logo-wrapper img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    <div class="container">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I0E4NjVDOTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNEQTc3RjI7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGQTZDMTtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkMiIgeDE9IjEwMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGRjlENjg7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZCODg0O3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGRkNDOUI7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KCjwhLS0gTGVmdCBTaGFwZSAtLT4KPHBhdGggZD0iTTQwIDUwIEw0MCAyMCBRNDAgMTAgNTAgMTAgTDgwIDEwIFE5MCAxMCA5MCAyMCBMOTAgNzAgUTkwIDgwIDgwIDgwIEw1MCA4MCBRNDAgODAgNDAgNzAgWiIgZmlsbD0idXJsKCNncmFkMSkiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDY1IDQ1IiB0bz0iMzYwIDY1IDQ1IiBkdXI9IjIwcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz4KPC9wYXRoPgoKPHBhdGggZD0iTTQwIDEzMCBMNDAgMTAwIFE0MCA5MCA1MCA5MCBMODAgOTAgUTkwIDkwIDkwIDEwMCBMOTAgMTUwIFE5MCAxNjAgODAgMTYwIEw1MCAxNjAgUTQwIDE2MCA0MCAxNTAgWiIgZmlsbD0idXJsKCNncmFkMikiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIzNjAgNjUgMTI1IiB0bz0iMCA2NSAxMjUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cgo8IS0tIFJpZ2h0IFNoYXBlIC0tPgo8cGF0aCBkPSJNMTEwIDYwIEwxMTAgMzAgUTExMCAyMCAxMjAgMjAgTDE1MCAyMCBRMTYwIDIwIDE2MCAzMCBMMTYwIDgwIFExNjAgOTAgMTUwIDkwIEwxMjAgOTAgUTExMCA5MCAxMTAgODAgWiIgZmlsbD0idXJsKCNncmFkMikiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDEzNSA1NSIgdG89IjM2MCAxMzUgNTUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cgo8cGF0aCBkPSJNMTEwIDE0MCBMMTEwIDExMCBRMTEwIDEwMCAxMjAgMTAwIEwxNTAgMTAwIFExNjAgMTAwIDE2MCAxMTAgTDE2MCAxNjAgUTE2MCAxNzAgMTUwIDE3MCBMMTIwIDE3MCBRMTEwIDE3MCAxMTAgMTYwIFoiIGZpbGw9InVybCgjZ3JhZDEpIj4KICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZnJvbT0iMzYwIDEzNSAxMzUiIHRvPSIwIDEzNSAxMzUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cjwvc3ZnPg==" alt="FnocWave Logo">
+            </div>
+        </div>
+
+        <!-- Title Section -->
+        <div class="title-section">
+            <h1>FnocWave</h1>
+            <p class="subtitle">Design - Optimize -  Dominate</p>
+            <div class="under-construction">🚧 Website Under Construction 🚧</div>
+        </div>
+
+        <!-- Loading Bar -->
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <a href="#" class="btn" id="webDesignBtn">
+                <span class="btn-icon">🎨</span>
+                Web Design Portfolio
+            </a>
+            <a href="#" class="btn" id="seoBtn">
+                <span class="btn-icon">📈</span>
+                SEO Portfolio
+            </a>
+            <a href="#" class="btn" id="contactBtn">
+                <span class="btn-icon">📧</span>
+                Contact
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add your links here
+        document.getElementById('webDesignBtn').href = 'https://www.notion.so/Web-Design-Case-Studies-2b0d28f7108280ab8ed1d7c3131a3884?source=copy_link';
+        document.getElementById('seoBtn').href = 'https://www.notion.so/SEO-Case-Studies-2d3d28f7108280a7bdbeee31c095bad0?source=copy_link';
+        document.getElementById('contactBtn').href = 'https://calendly.com/fnocwave';
+
+        // 3D Mouse Movement Effect
+        const logoWrapper = document.querySelector('.logo-wrapper');
+        const container = document.querySelector('.container');
+
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            logoWrapper.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            logoWrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+
+        // Button Click Animation
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href === '#' || this.href.includes('YOUR_')) {
+                    e.preventDefault();
+                    alert('Please add your portfolio/contact link in the HTML file!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
