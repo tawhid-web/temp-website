@@ -1,454 +1,1021 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FnocWave - A Digital Marketing company</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FnocWave — Local SEO That Dominates</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+  /* ============================================================
+     TOKENS & RESET
+  ============================================================ */
+  :root {
+    --brand-dark:    #050d1a;
+    --brand-navy:    #0a1628;
+    --brand-blue:    #0047ff;
+    --brand-cyan:    #00c6ff;
+    --brand-glow:    #00eaff;
+    --brand-accent:  #ff6a00;
+    --text-primary:  #f0f6ff;
+    --text-muted:    #7a9ab8;
+    --glass-bg:      rgba(10,22,40,0.55);
+    --glass-border:  rgba(0,198,255,0.18);
+    --radius-lg:     20px;
+    --radius-xl:     32px;
+  }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+  html { scroll-behavior: smooth; }
 
-        /* Animated Background Shapes */
-        .bg-shape {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 20s infinite ease-in-out;
-            pointer-events: none;
-        }
+  body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: var(--brand-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-        .shape1 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            top: -50px;
-            left: -50px;
-            animation-delay: 0s;
-        }
+  /* ============================================================
+     CUSTOM CURSOR
+  ============================================================ */
+  #cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--brand-cyan);
+    box-shadow: 0 0 18px 4px var(--brand-cyan);
+    transform: translate(-50%,-50%);
+    transition: transform 0.08s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 9998;
+    pointer-events: none;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,198,255,0.5);
+    transform: translate(-50%,-50%);
+    transition: transform 0.22s ease;
+  }
+  body:hover #cursor { opacity: 1; }
 
-        .shape2 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, #48dbfb, #0abde3);
-            bottom: -50px;
-            right: -50px;
-            animation-delay: 5s;
-        }
+  /* ============================================================
+     3D CANVAS
+  ============================================================ */
+  #hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-        .shape3 {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(45deg, #ff9ff3, #feca57);
-            top: 50%;
-            right: -50px;
-            animation-delay: 10s;
-        }
+  /* ============================================================
+     NAV
+  ============================================================ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 6%;
+    background: rgba(5,13,26,0.7);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(0,198,255,0.1);
+    transition: background 0.3s;
+  }
+  .nav-logo {
+    font-size: 1.35rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--brand-cyan); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
+    color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0,71,255,0.4);
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,198,255,0.5); }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            33% {
-                transform: translate(50px, -50px) rotate(120deg);
-            }
-            66% {
-                transform: translate(-30px, 50px) rotate(240deg);
-            }
-        }
+  /* ============================================================
+     HERO
+  ============================================================ */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg-gradient {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,71,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 15% 70%, rgba(0,198,255,0.10) 0%, transparent 70%),
+      var(--brand-dark);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,198,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,198,255,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 760px;
+    padding: 100px 6% 60px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,198,255,0.1);
+    border: 1px solid rgba(0,198,255,0.25);
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-cyan);
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            padding: 40px 20px;
-            max-width: 900px;
-            width: 90%;
-        }
+  h1 {
+    font-family: Verdana, sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  h1 .highlight {
+    background: linear-gradient(90deg, var(--brand-cyan), var(--brand-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 580px;
+    margin: 0 auto 42px;
+  }
+  .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-        /* Logo Container with 3D Effect */
-        .logo-container {
-            margin-bottom: 40px;
-            perspective: 1000px;
-            animation: fadeInDown 1s ease-out;
-        }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-cyan) 100%);
+    color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 50px;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(0,71,255,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,198,255,0.55); }
+  .btn-primary:hover::after { opacity: 1; }
 
-        .logo-wrapper {
-            display: inline-block;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
-                        0 0 40px rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            transition: all 0.3s ease;
-            animation: float3d 6s infinite ease-in-out;
-        }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: Verdana, sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    padding: 15px 32px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(0,198,255,0.35);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--brand-cyan); background: rgba(0,198,255,0.07); transform: translateY(-2px); }
 
-        .logo-wrapper:hover {
-            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4),
-                        0 0 60px rgba(255, 255, 255, 0.2);
-        }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-top: 60px; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 2rem; font-weight: 700;
+    background: linear-gradient(135deg, #fff, var(--brand-cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.05em; margin-top: 4px; }
 
-        @keyframes float3d {
-            0%, 100% {
-                transform: translateY(0px) rotateX(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotateX(5deg);
-            }
-        }
+  /* ============================================================
+     SECTION SHARED
+  ============================================================ */
+  section { position: relative; padding: 100px 6%; overflow: hidden; }
+  .section-label {
+    display: inline-block;
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand-cyan);
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-family: Verdana, sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;
+    max-width: 560px; margin-bottom: 60px;
+  }
+  .section-center { text-align: center; }
+  .section-center .section-sub { margin-left: auto; margin-right: auto; }
 
-        .logo-wrapper img {
-            width: 180px;
-            height: 180px;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-            animation: pulse 3s infinite ease-in-out;
-        }
+  /* ============================================================
+     HOW IT WORKS
+  ============================================================ */
+  #how {
+    background: linear-gradient(180deg, var(--brand-dark) 0%, var(--brand-navy) 100%);
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 28px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .step-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 36px 28px;
+    backdrop-filter: blur(20px);
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .step-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brand-cyan), transparent);
+  }
+  .step-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,198,255,0.12); }
+  .step-num {
+    font-size: 3rem; font-weight: 700;
+    color: rgba(0,198,255,0.12);
+    line-height: 1;
+    margin-bottom: 18px;
+    font-family: Verdana, sans-serif;
+  }
+  .step-icon {
+    font-size: 1.8rem; margin-bottom: 16px; display: block;
+  }
+  .step-card h3 {
+    font-family: Verdana, sans-serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: 10px;
+  }
+  .step-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
+  /* ============================================================
+     PORTFOLIO / CASE STUDIES
+  ============================================================ */
+  #portfolio { background: var(--brand-dark); }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .case-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 36px 30px;
+    backdrop-filter: blur(24px);
+    position: relative; overflow: hidden;
+    transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s;
+    transform-style: preserve-3d;
+  }
+  .case-card:hover { transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); box-shadow: 0 30px 80px rgba(0,71,255,0.2); }
+  .case-card .shine {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,198,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .case-niche {
+    display: inline-block;
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: rgba(0,71,255,0.25); border: 1px solid rgba(0,71,255,0.4);
+    color: var(--brand-cyan); border-radius: 50px;
+    padding: 4px 14px; margin-bottom: 20px;
+  }
+  .case-card h3 { font-family: Verdana, sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; }
+  .case-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 24px; }
+  .case-metrics { display: flex; gap: 20px; flex-wrap: wrap; }
+  .metric { }
+  .metric-val {
+    font-size: 1.6rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--brand-cyan), #fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    display: block; line-height: 1;
+  }
+  .metric-key { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.05em; }
 
-        /* Title Section */
-        .title-section {
-            margin-bottom: 35px;
-            animation: fadeIn 1.5s ease-out;
-        }
+  .case-card .case-bar-row { margin-top: 24px; }
+  .case-bar-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+  .case-bar-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .case-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--brand-blue), var(--brand-cyan)); width: 0; transition: width 1.2s ease; }
 
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 15px;
-            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
-            animation: slideInUp 1s ease-out;
-        }
+  /* ============================================================
+     TESTIMONIALS
+  ============================================================ */
+  #testimonials { background: var(--brand-navy); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .testi-card {
+    background: rgba(5,13,26,0.8);
+    border: 1px solid rgba(0,198,255,0.15);
+    border-radius: var(--radius-xl);
+    padding: 32px 28px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .testi-card:hover { transform: translateY(-8px); box-shadow: 0 24px 70px rgba(0,198,255,0.12), inset 0 1px 0 rgba(255,255,255,0.07); }
+  .testi-stars { color: #ffc947; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 16px; }
+  .testi-quote { font-size: 0.85rem; color: var(--text-primary); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0;
+  }
+  .testi-name { font-size: 0.85rem; font-weight: 700; }
+  .testi-role { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+  .video-placeholder {
+    background: rgba(0,71,255,0.12);
+    border: 1.5px dashed rgba(0,198,255,0.3);
+    border-radius: var(--radius-lg);
+    padding: 32px 20px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .video-placeholder .play-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 24px rgba(0,71,255,0.4);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .video-placeholder .play-icon:hover { transform: scale(1.1); }
+  .video-placeholder p { font-size: 0.78rem; color: var(--text-muted); }
 
-        .subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 300;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
+  /* ============================================================
+     TRUST BAR
+  ============================================================ */
+  #trust {
+    background: var(--brand-dark);
+    padding: 50px 6%;
+    text-align: center;
+  }
+  .trust-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 30px; }
+  .trust-logos { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .trust-logo {
+    font-family: Verdana, sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    color: rgba(120,160,200,0.35);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .trust-logo:hover { color: rgba(0,198,255,0.6); }
 
-        .under-construction {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            font-size: 1rem;
-            color: #ffffff;
-            font-weight: 500;
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: blink 2s infinite;
-        }
+  /* ============================================================
+     FINAL CTA SECTION
+  ============================================================ */
+  #cta-section {
+    background: var(--brand-dark);
+    text-align: center;
+    padding: 120px 6%;
+    position: relative; overflow: hidden;
+  }
+  .cta-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,71,255,0.2) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  #cta-section h2 { max-width: 700px; margin: 0 auto 16px; }
+  #cta-section .section-sub { margin: 0 auto 48px; }
+  .cta-wrapper {
+    position: relative; z-index: 2;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 60px 40px;
+    max-width: 720px; margin: 0 auto;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+  }
+  .cta-wrapper h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin-bottom: 14px; }
+  .cta-wrapper p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 36px; }
+  .no-form-note {
+    margin-top: 20px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .no-form-note::before { content: '🔒'; }
 
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    background: rgba(3,8,18,0.95);
+    border-top: 1px solid rgba(0,198,255,0.1);
+    padding: 50px 6% 30px;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 30px; max-width: 1100px; margin: 0 auto;
+  }
+  .footer-brand .nav-logo { display: block; margin-bottom: 10px; font-size: 1.2rem; }
+  .footer-brand p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; max-width: 250px; }
+  .footer-links { display: flex; gap: 40px; flex-wrap: wrap; }
+  .footer-col h4 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 14px; color: var(--text-primary); }
+  .footer-col a {
+    display: block; font-size: 0.78rem; color: var(--text-muted); text-decoration: none;
+    margin-bottom: 8px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--brand-cyan); }
+  .social-row { display: flex; gap: 12px; margin-top: 16px; }
+  .social-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid rgba(0,198,255,0.25);
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+  .social-btn:hover { border-color: var(--brand-cyan); color: var(--brand-cyan); background: rgba(0,198,255,0.08); }
+  .footer-bottom {
+    border-top: 1px solid rgba(0,198,255,0.07);
+    margin-top: 40px; padding-top: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+    max-width: 1100px; margin: 40px auto 0;
+  }
+  .footer-bottom p { font-size: 0.72rem; color: var(--text-muted); }
+  .footer-bottom a { color: var(--text-muted); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--brand-cyan); }
 
-        /* Button Container */
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            animation: fadeInUp 2s ease-out;
-        }
+  /* ============================================================
+     CALENDLY POPUP OVERLAY
+  ============================================================ */
+  #cal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(5,13,26,0.92);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  #cal-overlay.open { opacity: 1; pointer-events: all; }
+  .cal-modal {
+    background: var(--brand-navy);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    width: min(95vw, 700px);
+    height: min(90vh, 680px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+  }
+  .cal-close {
+    position: absolute; top: 14px; right: 16px; z-index: 10;
+    background: rgba(255,255,255,0.1); border: none; color: #fff;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .cal-close:hover { background: rgba(255,255,255,0.2); }
+  .cal-embed-inner {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 30px; text-align: center;
+  }
+  .cal-embed-inner h3 { font-family: Verdana, sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+  .cal-embed-inner p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px; }
+  .cal-open-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
+    color: #fff; font-family: Verdana, sans-serif; font-size: 0.9rem; font-weight: 700;
+    padding: 16px 40px; border-radius: 50px; border: none; cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0,71,255,0.5);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cal-open-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,198,255,0.5); }
+  .cal-note { margin-top: 18px; font-size: 0.72rem; color: var(--text-muted); }
 
-        .btn {
-            position: relative;
-            padding: 18px 45px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            transform-style: preserve-3d;
-        }
+  /* ============================================================
+     SCROLL ANIMATIONS
+  ============================================================ */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.6);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
-        }
-
-        .btn:active {
-            transform: translateY(-4px) scale(1.02);
-        }
-
-        .btn-icon {
-            font-size: 1.3rem;
-            transition: transform 0.3s;
-        }
-
-        .btn:hover .btn-icon {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        /* Loading Animation */
-        .loading-bar {
-            width: 200px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            margin: 30px auto 0 auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .loading-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
-            background-size: 200% 100%;
-            animation: loading 2s infinite linear;
-            border-radius: 10px;
-        }
-
-        @keyframes loading {
-            0% {
-                background-position: 0% 0%;
-            }
-            100% {
-                background-position: 200% 0%;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .logo-wrapper img {
-                width: 140px;
-                height: 140px;
-            }
-
-            .button-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .logo-wrapper img {
-                width: 120px;
-                height: 120px;
-            }
-
-            .btn {
-                padding: 15px 35px;
-                font-size: 1rem;
-            }
-        }
-    </style>
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 768px) {
+    nav { padding: 14px 5%; }
+    .hero-stats { gap: 24px; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    section { padding: 70px 5%; }
+    .footer-inner { flex-direction: column; }
+    .footer-links { gap: 24px; }
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none; }
+  }
+</style>
 </head>
 <body>
-    <!-- Animated Background Shapes -->
-    <div class="bg-shape shape1"></div>
-    <div class="bg-shape shape2"></div>
-    <div class="bg-shape shape3"></div>
 
-    <div class="container">
-        <!-- Logo Section -->
-        <div class="logo-container">
-            <div class="logo-wrapper">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I0E4NjVDOTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNEQTc3RjI7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGQTZDMTtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkMiIgeDE9IjEwMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGRjlENjg7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZCODg0O3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGRkNDOUI7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KCjwhLS0gTGVmdCBTaGFwZSAtLT4KPHBhdGggZD0iTTQwIDUwIEw0MCAyMCBRNDAgMTAgNTAgMTAgTDgwIDEwIFE5MCAxMCA5MCAyMCBMOTAgNzAgUTkwIDgwIDgwIDgwIEw1MCA4MCBRNDAgODAgNDAgNzAgWiIgZmlsbD0idXJsKCNncmFkMSkiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDY1IDQ1IiB0bz0iMzYwIDY1IDQ1IiBkdXI9IjIwcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz4KPC9wYXRoPgoKPHBhdGggZD0iTTQwIDEzMCBMNDAgMTAwIFE0MCA5MCA1MCA5MCBMODAgOTAgUTkwIDkwIDkwIDEwMCBMOTAgMTUwIFE5MCAxNjAgODAgMTYwIEw1MCAxNjAgUTQwIDE2MCA0MCAxNTAgWiIgZmlsbD0idXJsKCNncmFkMikiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIzNjAgNjUgMTI1IiB0bz0iMCA2NSAxMjUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cgo8IS0tIFJpZ2h0IFNoYXBlIC0tPgo8cGF0aCBkPSJNMTEwIDYwIEwxMTAgMzAgUTExMCAyMCAxMjAgMjAgTDE1MCAyMCBRMTYwIDIwIDE2MCAzMCBMMTYwIDgwIFExNjAgOTAgMTUwIDkwIEwxMjAgOTAgUTExMCA5MCAxMTAgODAgWiIgZmlsbD0idXJsKCNncmFkMikiPgogIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDEzNSA1NSIgdG89IjM2MCAxMzUgNTUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cgo8cGF0aCBkPSJNMTEwIDE0MCBMMTEwIDExMCBRMTEwIDEwMCAxMjAgMTAwIEwxNTAgMTAwIFExNjAgMTAwIDE2MCAxMTAgTDE2MCAxNjAgUTE2MCAxNzAgMTUwIDE3MCBMMTIwIDE3MCBRMTEwIDE3MCAxMTAgMTYwIFoiIGZpbGw9InVybCgjZ3JhZDEpIj4KICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZnJvbT0iMzYwIDEzNSAxMzUiIHRvPSIwIDEzNSAxMzUiIGR1cj0iMjBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPgo8L3BhdGg+Cjwvc3ZnPg==" alt="FnocWave Logo">
-            </div>
-        </div>
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-        <!-- Title Section -->
-        <div class="title-section">
-            <h1>FnocWave</h1>
-            <p class="subtitle">We help you get more leads, more eyeballs, and more business.</p>
-            <div class="under-construction">🚧 Website Under Construction 🚧</div>
-        </div>
+<!-- Calendly Popup -->
+<div id="cal-overlay">
+  <div class="cal-modal">
+    <button class="cal-close" onclick="closeCalendly()">✕</button>
+    <div class="cal-embed-inner">
+      <div style="font-size:3rem;margin-bottom:20px">📅</div>
+      <h3>Book Your Free Strategy Call</h3>
+      <p>In 30 minutes, we'll analyze your local SEO landscape, identify the biggest ranking gaps, and outline exactly how FnocWave will get your business to Page 1 — guaranteed no-fluff audit.</p>
+      <a class="cal-open-btn" href="https://calendly.com/fnocwave/new-meeting" target="_blank" rel="noopener">
+        ▶ &nbsp; Open Scheduling Page
+      </a>
+      <p class="cal-note">🔒 No spam. No forms. Just a real strategy conversation.</p>
+    </div>
+  </div>
+</div>
 
-        <!-- Loading Bar -->
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav>
+  <a href="#" class="nav-logo">Fnoc<span>Wave</span></a>
+  <button class="nav-cta" onclick="openCalendly()">Book Strategy Call →</button>
+</nav>
 
-        <!-- Buttons -->
-        <div class="button-container">
-            <a href="#" class="btn" id="webDesignBtn">
-                <span class="btn-icon">🎨</span>
-                Web Design
-            </a>
-            <a href="#" class="btn" id="seoBtn">
-                <span class="btn-icon">📈</span>
-                Local SEO
-            </a>
-            <a href="#" class="btn" id="contactBtn">
-                <span class="btn-icon">📧</span>
-                Contact
-            </a>
-        </div>
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-grid"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">Local SEO · Sniper Precision · Real Results</div>
+    <h1>Get Your Business to <span class="highlight">Page 1</span> Before Your Competitors Wake Up</h1>
+    <p class="hero-sub">FnocWave uses a laser-focused, data-driven approach to local SEO — targeting exactly the right keywords, citations, and Google Business signals that turn browsers into booked calls for plumbers, HVAC techs, roofers & more.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="openCalendly()">
+        📅 &nbsp; Book a Free Strategy Call
+      </button>
+      <a href="#portfolio" class="btn-ghost">See Proof of Results ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">47+</div>
+        <div class="stat-label">Businesses Ranked</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">300%</div>
+        <div class="stat-label">Avg Lead Increase</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Top 3</div>
+        <div class="stat-label">GMB Rankings</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">USA · AU · NZ</div>
+        <div class="stat-label">Markets Served</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+============================================================ -->
+<section id="how">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <span class="section-label">The FnocWave Method</span>
+    <h2>A Sniper Approach to Local Search Domination</h2>
+    <p class="section-sub section-center">Most agencies spray-and-pray with generic SEO. We identify exactly where your competitors are weak and drive your business to the top — surgically.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal">
+      <div class="step-num">01</div>
+      <span class="step-icon">🔍</span>
+      <h3>Deep Local Audit</h3>
+      <p>We map your Google Business Profile, citation health, keyword gaps, and competitor rankings to build a precise battle plan.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">02</div>
+      <span class="step-icon">🎯</span>
+      <h3>Precision Targeting</h3>
+      <p>We focus on hyper-local, high-intent keywords your ideal customers are searching right now — not generic traffic that never converts.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">03</div>
+      <span class="step-icon">⚡</span>
+      <h3>Rapid Implementation</h3>
+      <p>On-page optimization, Google Maps signals, NAP consistency, and authoritative local link building — deployed fast and systematically.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">04</div>
+      <span class="step-icon">📈</span>
+      <h3>Rank & Convert</h3>
+      <p>You rise to the top 3 results in the Google Map Pack where 80% of local clicks happen. More visibility = more booked jobs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PORTFOLIO / CASE STUDIES
+============================================================ -->
+<section id="portfolio">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <span class="section-label">Case Studies</span>
+    <h2>Real Businesses. Real Rankings. Real Revenue.</h2>
+    <p class="section-sub section-center">Here's the proof that our sniper SEO methodology delivers results across multiple home service niches in competitive US markets.</p>
+  </div>
+  <div class="portfolio-grid">
+
+    <div class="case-card reveal" onmousemove="shineEffect(this,event)">
+      <div class="shine"></div>
+      <span class="case-niche">🔧 Plumbing · Texas</span>
+      <h3>Houston Plumbing Pro — From Invisible to Dominant</h3>
+      <p>A family-owned plumber with zero online presence. Within 90 days we secured 3 top-5 Map Pack positions for high-value keywords across Houston.</p>
+      <div class="case-metrics">
+        <div class="metric"><span class="metric-val">+340%</span><div class="metric-key">Organic Calls</div></div>
+        <div class="metric"><span class="metric-val">#1</span><div class="metric-key">Map Pack Rank</div></div>
+      </div>
+      <div class="case-bar-row">
+        <div class="case-bar-label"><span>Local Visibility Score</span><span>94/100</span></div>
+        <div class="case-bar-track"><div class="case-bar-fill" data-width="94%"></div></div>
+      </div>
     </div>
 
-    <script>
-        // Add your links here
-        document.getElementById('webDesignBtn').href = 'https://www.notion.so/Web-Design-Case-Studies-2b0d28f7108280ab8ed1d7c3131a3884?source=copy_link';
-        document.getElementById('seoBtn').href = 'https://www.notion.so/SEO-Case-Studies-2d3d28f7108280a7bdbeee31c095bad0?source=copy_link';
-        document.getElementById('contactBtn').href = 'https://calendly.com/fnocwave/new-meeting';
+    <div class="case-card reveal" onmousemove="shineEffect(this,event)">
+      <div class="shine"></div>
+      <span class="case-niche">❄️ HVAC · Florida</span>
+      <h3>Miami HVAC Experts — 3x Leads in 60 Days</h3>
+      <p>Competing against established brands in Miami's saturated HVAC market, we identified neighborhood-level keyword gaps and dominated local search.</p>
+      <div class="case-metrics">
+        <div class="metric"><span class="metric-val">+298%</span><div class="metric-key">Monthly Leads</div></div>
+        <div class="metric"><span class="metric-val">Top 3</span><div class="metric-key">Map Pack</div></div>
+      </div>
+      <div class="case-bar-row">
+        <div class="case-bar-label"><span>Keyword Rankings Achieved</span><span>28/30</span></div>
+        <div class="case-bar-track"><div class="case-bar-fill" data-width="93%"></div></div>
+      </div>
+    </div>
 
-        // 3D Mouse Movement Effect
-        const logoWrapper = document.querySelector('.logo-wrapper');
-        const container = document.querySelector('.container');
+    <div class="case-card reveal" onmousemove="shineEffect(this,event)">
+      <div class="shine"></div>
+      <span class="case-niche">🏠 Roofing · California</span>
+      <h3>LA Roofers — Outranked 14 Competitors</h3>
+      <p>Started ranked 14th for "roof repair Los Angeles." After our precision citation & content strategy, they now hold position 2 — consistently receiving 50+ monthly calls.</p>
+      <div class="case-metrics">
+        <div class="metric"><span class="metric-val">Pos. 14→2</span><div class="metric-key">Map Pack Jump</div></div>
+        <div class="metric"><span class="metric-val">+400%</span><div class="metric-key">Revenue ROI</div></div>
+      </div>
+      <div class="case-bar-row">
+        <div class="case-bar-label"><span>Citation Accuracy</span><span>100%</span></div>
+        <div class="case-bar-track"><div class="case-bar-fill" data-width="100%"></div></div>
+      </div>
+    </div>
 
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            logoWrapper.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
+    </section>
 
-        container.addEventListener('mouseleave', () => {
-            logoWrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-        });
+<!-- ============================================================
+     TRUST BAR
+============================================================ -->
+<section id="trust">
+  <p class="trust-label">Trusted by home service businesses across</p>
+  <div class="trust-logos">
+    <span class="trust-logo">🇺🇸 United States</span>
+    <span class="trust-logo">🇦🇺 Australia</span>
+    <span class="trust-logo">🇳🇿 New Zealand</span>
+    <span class="trust-logo">🇬🇧 United Kingdom</span>
+    <span class="trust-logo">🇨🇦 Canada</span>
+  </div>
+</section>
 
-        // Button Click Animation
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (this.href === '#' || this.href.includes('YOUR_')) {
-                    e.preventDefault();
-                    alert('Please add your portfolio/contact link in the HTML file!');
-                }
-            });
-        });
-    </script>
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section id="testimonials">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <span class="section-label">Client Testimonials</span>
+    <h2>What Our Clients Say After Ranking #1</h2>
+    <p class="section-sub section-center">Don't take our word for it. Here's what business owners experienced after the FnocWave treatment.</p>
+  </div>
+  <div class="testi-grid">
+
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Before FnocWave, I was getting maybe 4–5 calls a week from Google. Now my phone doesn't stop ringing. They know exactly what they're doing with local SEO and the results prove it."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <div class="testi-name">Marcus D.</div>
+          <div class="testi-role">Owner — DuraPipe Plumbing, Houston TX</div>
+        </div>
+      </div>
+      <div class="video-placeholder" style="margin-top:20px">
+        <div class="play-icon">▶</div>
+        <p>Marcus's success story</p>
+      </div>
+    </div>
+
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"I was skeptical about SEO agencies — had bad experiences before. FnocWave was completely different. Transparent reporting, no fluff, just real rankings. We're now booked 3 weeks out!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Sarah K.</div>
+          <div class="testi-role">Director — CoolBreeze HVAC, Miami FL</div>
+        </div>
+      </div>
+      <div class="video-placeholder" style="margin-top:20px">
+        <div class="play-icon">▶</div>
+        <p>Sarah's success story</p>
+      </div>
+    </div>
+
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"We went from page 4 to position 2 on Google Maps in just 11 weeks. Our revenue is up significantly and we've had to hire two new technicians just to keep up with demand."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">R</div>
+        <div>
+          <div class="testi-name">Robert M.</div>
+          <div class="testi-role">CEO — PeakShield Roofing, Los Angeles CA</div>
+        </div>
+</div>
+      <div class="video-placeholder" style="margin-top:20px">
+        <div class="play-icon">▶</div>
+        <p>Rober's success story</p>
+      </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+============================================================ -->
+<section id="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-wrapper reveal">
+    <span class="section-label" style="display:block;margin-bottom:12px">Limited Spots Available</span>
+    <h2>Ready to Dominate Your Local Market?</h2>
+    <p>We only take on 5 new clients per month to ensure every business gets our full focus and delivers results. If you're serious about getting more local leads — let's talk strategy, no strings attached.</p>
+    <button class="btn-primary" style="font-size:0.95rem;padding:18px 44px" onclick="openCalendly()">
+      📅 &nbsp; Claim Your Free SEO Audit Call
+    </button>
+    <p class="no-form-note">100% free · No forms · No spam · Just strategy</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Fnoc<span style="color:var(--brand-cyan)">Wave</span></a>
+      <p>Local SEO specialists helping home service businesses rank higher, get more calls, and grow revenue — using sniper-precision digital marketing.</p>
+      <div class="social-row">
+        <a class="social-btn" href="https://linkedin.com/company/fnocwave" target="_blank" title="LinkedIn">in</a>
+        <a class="social-btn" href="https://instagram.com/fnocwave" target="_blank" title="Instagram">📷</a>
+        <a class="social-btn" href="https://facebook.com/fnocwave" target="_blank" title="Facebook">f</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#">Local SEO</a>
+        <a href="#">Google Maps Optimization</a>
+        <a href="#">Citation Building</a>
+        <a href="#">GMB Management</a>
+      </div>
+      <div class="footer-col">
+        <h4>Industries</h4>
+        <a href="#">Plumbers</a>
+        <a href="#">HVAC Companies</a>
+        <a href="#">Roofers</a>
+        <a href="#">Interior Designers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="https://fnocwave.com" target="_blank">Website</a>
+        <a href="#portfolio">Case Studies</a>
+        <a href="#" onclick="openCalendly();return false;">Book a Call</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 FnocWave. All rights reserved. Built for local dominance.</p>
+    <p><a href="#">Privacy Policy</a> · <a href="#">Terms</a></p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<script>
+/* ---- Custom Cursor ---- */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button, .case-card, .testi-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.width='28px'; cursor.style.height='28px'; });
+  el.addEventListener('mouseleave', () => { cursor.style.width='18px'; cursor.style.height='18px'; });
+});
+
+/* ---- Calendly Popup ---- */
+function openCalendly() { document.getElementById('cal-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCalendly() { document.getElementById('cal-overlay').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('cal-overlay').addEventListener('click', function(e) { if(e.target===this) closeCalendly(); });
+
+/* ---- 3D Canvas (Three.js) ---- */
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera.position.set(0, 0, 28);
+
+  function resize() {
+    const w = canvas.parentElement.offsetWidth, h = canvas.parentElement.offsetHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  /* Glowing sphere grid */
+  const group = new THREE.Group();
+  scene.add(group);
+  const sphereGeo = new THREE.SphereGeometry(0.25, 12, 12);
+  const cols = 8, rows = 5;
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      const mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(i % 2 === 0 ? 0x0047ff : 0x00c6ff),
+        emissive: new THREE.Color(i % 2 === 0 ? 0x0022aa : 0x004466),
+        metalness: 0.8, roughness: 0.2,
+      });
+      const mesh = new THREE.Mesh(sphereGeo, mat);
+      mesh.position.set((i - cols/2) * 3.5, (j - rows/2) * 3, 0);
+      mesh.userData.ox = mesh.position.x;
+      mesh.userData.oy = mesh.position.y;
+      mesh.userData.phase = Math.random() * Math.PI * 2;
+      group.add(mesh);
+    }
+  }
+
+  /* Torus ring */
+  const torusGeo = new THREE.TorusGeometry(7, 0.06, 8, 80);
+  const torusMat = new THREE.MeshStandardMaterial({ color: 0x00c6ff, emissive: 0x003355, wireframe: false, transparent: true, opacity: 0.5 });
+  const torus = new THREE.Mesh(torusGeo, torusMat);
+  torus.rotation.x = Math.PI / 4;
+  scene.add(torus);
+
+  /* Ambient + point lights */
+  scene.add(new THREE.AmbientLight(0x1a2a4a, 2));
+  const pLight1 = new THREE.PointLight(0x0047ff, 3, 40);
+  pLight1.position.set(-10, 5, 10);
+  scene.add(pLight1);
+  const pLight2 = new THREE.PointLight(0x00c6ff, 2, 40);
+  pLight2.position.set(10, -5, 8);
+  scene.add(pLight2);
+
+  /* Mouse interaction */
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.016;
+    group.children.forEach(m => {
+      m.position.y = m.userData.oy + Math.sin(t + m.userData.phase) * 0.4;
+      m.position.x = m.userData.ox + Math.cos(t * 0.5 + m.userData.phase) * 0.2;
+      m.rotation.y += 0.005;
+    });
+    group.rotation.y += (mouseX * 0.3 - group.rotation.y) * 0.04;
+    group.rotation.x += (-mouseY * 0.2 - group.rotation.x) * 0.04;
+    torus.rotation.z += 0.003;
+    torus.rotation.y += 0.001;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+/* ---- Scroll Reveal ---- */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+
+/* ---- Bar Fill Animation ---- */
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.case-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width;
+      });
+      barObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.case-card').forEach(el => barObserver.observe(el));
+
+/* ---- 3D Card Shine Effect ---- */
+function shineEffect(card, e) {
+  const rect = card.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+  card.style.setProperty('--mx', x + '%');
+  card.style.setProperty('--my', y + '%');
+}
+
+/* ---- Stagger step cards ---- */
+document.querySelectorAll('.step-card').forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.1) + 's';
+});
+</script>
 </body>
 </html>
